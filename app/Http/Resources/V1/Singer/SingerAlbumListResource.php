@@ -17,7 +17,6 @@ class SingerAlbumListResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "singer" => $this->singer->name,
             "img" => asset($this->getImage()),
             "tracks_count" => $this->tracks()->count(),
             "date" => $this->date,

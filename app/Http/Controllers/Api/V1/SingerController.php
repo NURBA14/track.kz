@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\Singer\SingerStoreRequest;
+use App\Http\Requests\Api\V1\Singer\SingerUpdateRequest;
 use App\Http\Resources\V1\Singer\SingerIndexResource;
 use App\Http\Resources\V1\Singer\SingerShowResource;
 use App\Models\Singer;
@@ -21,9 +23,12 @@ class SingerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SingerStoreRequest $request)
     {
-        //
+        $singer = Singer::create([
+            "name" => $request->validated("name")
+        ]);
+        return response()->json(["singer" => new SingerShowResource($singer)], 201);
     }
 
     /**
@@ -37,16 +42,24 @@ class SingerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SingerUpdateRequest $request, Singer $singer)
     {
-        //
+        $singer->update([
+            "name" => $request->validated("name")
+        ]);
+        return response()->json(["singer" => new SingerShowResource($singer)]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Singer $singer)
     {
-        //
+        if ($singer->albums()->count()) {
+            return response()->json(["message" => "This singer has albums"]);
+        } else {
+            $singer->delete();
+            return response()->json(["message" => "success"]);
+        }
     }
 }

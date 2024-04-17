@@ -19,7 +19,14 @@ class TrackIndexResource extends JsonResource
             "name" => $this->name,
             "track" => asset($this->getTrack()),
             "views" => $this->views,
-            "album" => $this->album->name,
+            "album" => [
+                "id" => $this->album->id,
+                "name" => $this->album->name
+            ],
+            "singer" => [
+                "id" => $this->album->singer->id,
+                "name" => $this->album->singer->name 
+            ],
             "created_at" => $this->created_at,
         ];
     }
