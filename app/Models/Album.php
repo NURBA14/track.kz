@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,5 +29,10 @@ class Album extends Model
     public function getImage()
     {
         return "storage/" . $this->img;
+    }
+    public function getCreatedAtAttribute($value)
+    {
+        $createdAt = Carbon::parse($value);        
+        return $createdAt->format('Y:m:d H:i:s');
     }
 }
