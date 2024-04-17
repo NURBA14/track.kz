@@ -19,7 +19,11 @@ class AlbumFactory extends Factory
         return [
             "name" => fake()->word(),
             "singer_id" => fake()->numberBetween(1, 2),
-            "img" => fake()->imageUrl(640, 480, 'animals', true),
+            "img" => fake()->randomElement([
+                "test_img/123.jpg",
+                "test_img/jaD1Lz7Hbwg.jpg",
+                "test_img/YEYM6fKu.jpeg"
+            ]),
             "date" => now(),
         ];
     }
