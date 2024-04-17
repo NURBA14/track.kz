@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 
 class SingerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(["auth:sanctum", "api_admin"])->only("store", "update", "destroy");
+    }
     /**
      * Display a listing of the resource.
      */
