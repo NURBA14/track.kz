@@ -38,7 +38,7 @@ class AlbumController extends Controller
             "date" => $request->validated("date"),
             "img" => $img
         ]);
-        return response()->json(["album" => new AlbumShowResource($album)]);
+        return response()->json(["album" => new AlbumShowResource($album)], 201);
     }
 
     /**
