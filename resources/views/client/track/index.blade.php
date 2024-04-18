@@ -5,6 +5,7 @@
 @endsection
 
 @section('header')
+    Tracks
 @endsection
 
 @section('content')

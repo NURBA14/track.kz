@@ -16,7 +16,7 @@
     <div class="col-md-8 col-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Create Singer</h4>
+                <h4 class="card-title">Edit Track</h4>
             </div>
             <div class="card-content">
                 <div class="card-body">
