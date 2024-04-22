@@ -42,7 +42,11 @@ class SingerTest extends TestCase
         $user = User::factory()->createOne([
             "is_admin" => 1
         ]);
-        $response = $this->actingAs($user)->post(route("singers.store"), [
+        $response = $this->actingAs($user)
+        ->withSession([
+            '_token' => "wasd",
+        ])->post(route("singers.store"), [
+            '_token' => "wasd",
             "name" => "Singer"
         ]);
         $response->assertRedirectToRoute("singers.index");
@@ -68,7 +72,11 @@ class SingerTest extends TestCase
             "is_admin" => 1
         ]);
         $singer = Singer::factory()->createOne();
-        $response = $this->actingAs($user)->put(route("singers.update", ["singer" => $singer->id]), [
+        $response = $this->actingAs($user)
+        ->withSession([
+            '_token' => "wasd",
+        ])->put(route("singers.update", ["singer" => $singer->id]), [
+            '_token' => "wasd",
             "name" => "Singer name"
         ]);
         $response->assertRedirectToRoute("singers.index");
@@ -84,7 +92,13 @@ class SingerTest extends TestCase
             "is_admin" => 1
         ]);
         $singer = Singer::factory()->createOne();
-        $response = $this->actingAs($user)->delete(route("singers.destroy", ["singer" => $singer->id]));
+        $response = $this->actingAs($user)
+        ->withSession([
+            '_token' => "wasd",
+        ])->delete(route("singers.destroy", [
+            '_token' => "wasd",
+            "singer" => $singer->id
+        ]));
         $response->assertRedirectToRoute("singers.index");
         $response->assertSessionHas("success", "Singer is deleted");
         $response->assertSessionHasNoErrors();

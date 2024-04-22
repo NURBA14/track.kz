@@ -30,7 +30,10 @@ class LoginTest extends TestCase
 
     public function test_security_login_store(): void
     {
-        $response = $this->post(route("security.login.store", [
+        $response = $this->withSession([
+            '_token' => "wasd",
+        ])->post(route("security.login.store", [
+            '_token' => "wasd",
             "email" => self::$user->email,
             "password" => "password"
         ]));
@@ -42,7 +45,12 @@ class LoginTest extends TestCase
 
     public function test_security_logout(): void
     {
-        $response = $this->post(route("security.logout"));
+        $response = $this
+        ->withSession([
+            '_token' => "wasd",
+        ])->post(route("security.logout", [
+            '_token' => "wasd",
+        ]));
         $response->assertRedirectToRoute("security.login.index");
         $response->assertSessionHasNoErrors();
         $response->assertStatus(302);

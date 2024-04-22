@@ -22,7 +22,10 @@ class RegTest extends TestCase
 
     public function test_secutiry_reg_store(): void
     {
-        $response = $this->post(route("security.reg.store", [
+        $response = $this->withSession([
+            '_token' => "wasd",
+        ])->post(route("security.reg.store", [
+            '_token' => "wasd",
             "email" => "murad@gmail.com",
             "name" => "Nurba",
             "password" => "123",

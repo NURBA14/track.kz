@@ -45,7 +45,10 @@ class AlbumTest extends TestCase
             "is_admin" => 1
         ]);
         $img = UploadedFile::fake()->image("image.jpg");
-        $response = $this->actingAs($user)->post(route("albums.store"), [
+        $response = $this->actingAs($user)->withSession([
+            '_token' => "wasd",
+        ])->post(route("albums.store"), [
+            '_token' => "wasd",
             "name" => "Name",
             "singer_id" => $singer->id,
             "img" => $img,
@@ -78,7 +81,10 @@ class AlbumTest extends TestCase
         $album = Album::factory()->for(Singer::factory())->createOne([
             "img" => $img
         ]);
-        $response = $this->actingAs($user)->put(route("albums.update", ["album" => $album->id]), [
+        $response = $this->actingAs($user)->withSession([
+            '_token' => "wasd",
+        ])->put(route("albums.update", ["album" => $album->id]), [
+            '_token' => "wasd",
             "name" => "Name",
             "singer_id" => $album->singer->id,
             "img" => $img,
@@ -99,7 +105,12 @@ class AlbumTest extends TestCase
         $album = Album::factory()->for(Singer::factory())->createOne([
             "img" => $img
         ]);
-        $response = $this->actingAs($user)->delete(route("albums.destroy", ["album" => $album->id]));
+        $response = $this->actingAs($user)->withSession([
+            '_token' => "wasd",
+        ])->delete(route("albums.destroy", [
+            '_token' => "wasd",
+            "album" => $album->id
+        ]));
         $response->assertRedirectToRoute("albums.index");
         $response->assertSessionHas("success", "Album is deleted");
         $response->assertSessionHasNoErrors();

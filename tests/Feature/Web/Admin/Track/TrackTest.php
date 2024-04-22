@@ -46,7 +46,11 @@ class TrackTest extends TestCase
             "is_admin" => 1
         ]);
         $track = UploadedFile::fake()->create("image.mp3");
-        $response = $this->actingAs($user)->post(route("tracks.store"), [
+        $response = $this->actingAs($user)
+        ->withSession([
+            '_token' => "wasd",
+        ])->post(route("tracks.store"), [
+            '_token' => "wasd",
             "name" => "Name",
             "album_id" => $album->id,
             "track" => $track,
@@ -81,7 +85,11 @@ class TrackTest extends TestCase
         $track = Track::factory()->for(Album::factory()->for(Singer::factory()))->createOne([
             "path" => $fake_track
         ]);
-        $response = $this->actingAs($user)->put(route("tracks.update", ["track" => $track->id]), [
+        $response = $this->actingAs($user)
+        ->withSession([
+            '_token' => "wasd",
+        ])->put(route("tracks.update", ["track" => $track->id]), [
+            '_token' => "wasd",
             "name" => "New name",
             "album_id" => $track->album->id,
             "track" => $fake_track
@@ -101,7 +109,13 @@ class TrackTest extends TestCase
         $track = Track::factory()->for(Album::factory()->for(Singer::factory()))->createOne([
             "path" => $fake_track
         ]);
-        $response = $this->actingAs($user)->delete(route("tracks.destroy", ["track" => $track->id]));
+        $response = $this->actingAs($user)
+        ->withSession([
+            '_token' => "wasd",
+        ])->delete(route("tracks.destroy", [
+            '_token' => "wasd",
+            "track" => $track->id
+        ]));
         $response->assertRedirectToRoute("tracks.index");
         $response->assertSessionHas("success", "Track is deleted");
         $response->assertSessionHasNoErrors();
